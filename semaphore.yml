@@ -1,0 +1,26 @@
+version: v1.0
+name: CIS Hardening Pipeline
+
+blocks:
+  - name: Install Dependencies
+    task:
+      jobs:
+        - name: Install CIS Tools
+          commands:
+            - apt-get update
+            - apt-get install -y cis-cat
+
+  - name: Run CIS Hardening Check
+    task:
+      jobs:
+        - name: Check Compliance
+          commands:
+            - cis-cat --profile <profile_name> --report <report_format>
+            - cat <report_file>
+
+  - name: Deploy (Optional)
+    task:
+      jobs:
+        - name: Deploy to Server
+          commands:
+            - ./deploy.sh
